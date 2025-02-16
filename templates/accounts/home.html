@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Home</title>
+    <title>Home</title>
 </head>
 <body>
     <h2>Welcome, {{ user.username }}</h2>
-    <p>This is the user homepage.</p>
+    <p>Select your dashboard:</p>
+    <ul>
+        <li><a href="{% url 'support_home' %}">Fire Control Support</a></li>
+        <li><a href="{% url 'team_home' %}">Fire Control Team</a></li>
+    </ul>
     <a href="{% url 'logout' %}">Logout</a>
 </body>
 </html>
