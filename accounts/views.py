@@ -15,7 +15,7 @@ def login_view(request):
             login(request, user)
             # Redirect based on user role
             if user.is_superuser:
-                return redirect('/manage.db/')
+                return redirect('superuser_dashboard')
             elif user.groups.filter(name='Fire Control Support').exists():
                 return redirect('support_home')
             elif user.groups.filter(name='Fire Control Team').exists():
@@ -52,3 +52,7 @@ def manage_db_view(request):
 @login_required
 def home_view(request):
     return render(request, "accounts/home.html")
+
+@login_required
+def superuser_dashboard(request):
+    return render(request, "accounts/superuser_dashboard.html")

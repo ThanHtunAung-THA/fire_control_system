@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Superuser Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, {{ user.username }} (Superuser)</h2>
+    <p>This is the Superuser dashboard.</p>
+    <ul>
+        <li><a href="{% url 'support_home' %}">Go to Fire Control Support Dashboard</a></li>
+        <li><a href="{% url 'team_home' %}">Go to Fire Control Team Dashboard</a></li>
+        <li><a href="{% url 'manage_db' %}">Go to Superuser Dashboard</a></li>
+    </ul>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html> 

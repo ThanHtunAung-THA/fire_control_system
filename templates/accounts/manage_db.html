@@ -4,9 +4,17 @@
     <title>Manage Database</title>
 </head>
 <body>
+    <!-- show user name -->
+    <h2>Welcome, {{ user.username }}</h2>
     <h2>Database Management Dashboard</h2>
     <p>Only superusers can access this page.</p>
     <!-- Add your database management tools here -->
-    <a href="{% url 'logout' %}">Logout</a>
+    <ul>
+        <li><a href="{% url 'admin:index' %}">Go to Admin Dashboard</a></li>
+        <li><a href="{% url 'superuser_dashboard' %}">Go to Superuser Dashboard</a></li>
+    </ul>
+    <ul>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
 </body>
 </html> 
