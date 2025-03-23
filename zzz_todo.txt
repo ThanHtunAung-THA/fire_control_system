@@ -1,0 +1,57 @@
+I want to make django web app fire control system 
+including information post sys for fire watch team and alert sys by using cctv data 
+(currently a fake data will be used for cctv to test) 
+and stellite data (currently a fake data will be used for stellite to test).
+
+there must be login / register sys to manage fire control admin accounts 
+and fire team user accounts.
+
+#admin acc permission
+the admin acc will be able to see the fire alert info and the fire status. can manage the fire team acc.
+can manage the fire alert info. can post the fire alert info.
+can contact to any fire team acc for emergency report by using the chat function.
+can control fire pump and water sprayer by using the control function.
+can check the fire status by using the status function.
+can check the fire sprinkler device status by using the sprinkler device status function.
+can check the fire extinguisher status by using the extinguisher status function.
+can check the fire alarm status by using the alarm status function.
+can check the fire water tank status by using the water tank status function.
+can check the fire door status by using the door status function.
+can check the fire evacuation route by using the evacuation route function.
+can use the automatic fire extinguisher by using the auto extinguisher function.
+can use the automatic fire sprinkler by using the auto sprinkler function.
+can use the automatic fire alarm by using the auto alarm function.
+can use the automatic fire door by using the auto door function.
+can use the automatic fire evacuation route by using the auto evacuation route function.
+can monitor the fire fighting team status by using the team status function.
+can monitor the fire fighting team location by using the team location function.
+can monitor the fire fighting team action by using the team action function.
+can monitor the fire fighting team communication by using the team communication function.
+can monitor the fire fighting team equipment by using the team equipment function.
+can monitor the fire fighting team action by using the team action function.
+can contact to hospital by using the hospital function.
+can contact to police by using the police function.
+can contact to other fire department by using the fire department function.
+can contact to traffic police by using the traffic police function.
+can contact to rescue team by using the rescue team function.
+
+#fire team acc permission
+the fire team acc will be able to see the fire alert info and the fire status. 
+can contact to any admin for emergency report by using the chat function.
+can see the fire alert info and the fire status.
+can see the fire sprinkler device status by using the sprinkler device status function.
+can see the fire extinguisher status by using the extinguisher status function.
+can see the fire alarm status by using the alarm status function.
+can see the fire water tank status by using the water tank status function.
+can see the fire door status by using the door status function.
+can see the fire evacuation route by using the evacuation route function.
+can call for help by using the help function.
+can see the fire fighting team status by using the team status function.
+can see the fire fighting team location by using the team location function.
+can see the fire fighting team action by using the team action function.
+can see the fire fighting team communication by using the team communication function.
+can see the fire fighting team equipment by using the team equipment function.
+can communicate with the team member by using the chat function.
+
+
+
