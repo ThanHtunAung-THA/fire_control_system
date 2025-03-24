@@ -6,7 +6,7 @@ and stellite data (currently a fake data will be used for stellite to test).
 there must be login / register sys to manage fire control admin accounts 
 and fire team user accounts.
 
-#admin acc permission
+#fire watch team acc permission
 the admin acc will be able to see the fire alert info and the fire status. can manage the fire team acc.
 can manage the fire alert info. can post the fire alert info.
 can contact to any fire team acc for emergency report by using the chat function.
@@ -35,7 +35,7 @@ can contact to other fire department by using the fire department function.
 can contact to traffic police by using the traffic police function.
 can contact to rescue team by using the rescue team function.
 
-#fire team acc permission
+#fire fight team acc permission
 the fire team acc will be able to see the fire alert info and the fire status. 
 can contact to any admin for emergency report by using the chat function.
 can see the fire alert info and the fire status.
