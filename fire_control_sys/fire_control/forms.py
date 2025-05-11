@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, FireAlert, DeviceStatus
+from .models import User, FireAlert, DeviceStatus, TeamMember
 
 class UserRegistrationForm(UserCreationForm):
     class Meta:
@@ -47,14 +47,14 @@ class ChatMessageForm(forms.Form):
 
 class TeamMemberForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ('username', 'email', 'is_fire_team', 'location', 'status')
+        model = TeamMember
+        fields = ('name', 'role', 'contact_number', 'status', 'equipment')
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'is_fire_team': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'role': forms.Select(attrs={'class': 'form-control'}),
+            'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
+            'equipment': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
 class EmergencyContactForm(forms.Form):

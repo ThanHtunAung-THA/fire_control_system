@@ -22,6 +22,8 @@ urlpatterns = [
     # Team Management URLs
     path('team/', views.TeamMemberListView.as_view(), name='team_status'),
     path('team/create/', views.TeamMemberCreateView.as_view(), name='team_member_create'),
+    path('team/<int:pk>/update/', views.TeamMemberUpdateView.as_view(), name='team_member_update'),
+    path('team/<int:pk>/delete/', views.TeamMemberDeleteView.as_view(), name='team_member_delete'),
     
     # Chat URL
     path('chat/', views.chat, name='chat'),

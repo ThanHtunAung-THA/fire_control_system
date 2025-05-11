@@ -55,7 +55,7 @@ class FireAlertCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy('fire_control:fire_alerts')
 
     def test_func(self):
-        return self.request.user.is_admin
+        return self.request.user.is_admin or self.request.user.is_fire_team
 
 class FireAlertDetailView(LoginRequiredMixin, DetailView):
     model = FireAlert
@@ -69,7 +69,7 @@ class DeviceStatusListView(LoginRequiredMixin, ListView):
 
 @login_required
 def update_device_status(request, pk):
-    if request.method == 'POST' and request.user.is_admin:
+    if request.method == 'POST' and (request.user.is_admin or request.user.is_fire_team):
         device = get_object_or_404(DeviceStatus, pk=pk)
         form = DeviceControlForm(request.POST, instance=device)
         if form.is_valid():
@@ -78,18 +78,49 @@ def update_device_status(request, pk):
     return JsonResponse({'success': False})
 
 # Team Management Views
-class TeamMemberListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class TeamMemberListView(LoginRequiredMixin, ListView):
     model = TeamMember
     template_name = 'fire_control/team_status.html'
     context_object_name = 'team_members'
-
-    def test_func(self):
-        return self.request.user.is_admin
 
 class TeamMemberCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = TeamMember
     form_class = TeamMemberForm
     template_name = 'fire_control/team_member_form.html'
+    success_url = reverse_lazy('fire_control:team_status')
+
+    def test_func(self):
+        return self.request.user.is_admin
+
+    def form_valid(self, form):
+        # Create a new user first
+        user = User.objects.create_user(
+            username=form.cleaned_data['name'].lower().replace(' ', '_'),
+            email=f"{form.cleaned_data['name'].lower().replace(' ', '_')}@fireteam.com",
+            password='changeme123',  # Default password that should be changed
+            is_fire_team=True
+        )
+        
+        # Create the team member with the user
+        team_member = form.save(commit=False)
+        team_member.user = user
+        team_member.save()
+        
+        messages.success(self.request, f'Team member {team_member.name} created successfully. Default password is "changeme123"')
+        return super().form_valid(form)
+
+class TeamMemberUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = TeamMember
+    form_class = TeamMemberForm
+    template_name = 'fire_control/team_member_form.html'
+    success_url = reverse_lazy('fire_control:team_status')
+
+    def test_func(self):
+        return self.request.user.is_admin
+
+class TeamMemberDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = TeamMember
+    template_name = 'fire_control/team_member_confirm_delete.html'
     success_url = reverse_lazy('fire_control:team_status')
 
     def test_func(self):
@@ -123,7 +154,7 @@ def chat(request):
 # Emergency Contact View
 @login_required
 def emergency_contact(request):
-    if request.method == 'POST' and request.user.is_admin:
+    if request.method == 'POST' and (request.user.is_admin or request.user.is_fire_team):
         form = EmergencyContactForm(request.POST)
         if form.is_valid():
             contact_type = form.cleaned_data['contact_type']

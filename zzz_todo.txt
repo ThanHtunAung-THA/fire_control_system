@@ -3,7 +3,7 @@ including information post sys for fire watch team and alert sys by using cctv d
 (currently a fake data will be used for cctv to test) 
 and stellite data (currently a fake data will be used for stellite to test).
 
-there must be login / register sys to manage fire control admin accounts 
+there must be login / register sys to manage fire control watch accounts 
 and fire team user accounts.
 
 #fire watch team acc permission
@@ -55,3 +55,7 @@ can communicate with the team member by using the chat function.
 
 
 
+TODO:
+current login acc is m2y2 (superuser created in cmd). I can't enter to Team Members. it shows 403 Forbidden.
+
+I want to 

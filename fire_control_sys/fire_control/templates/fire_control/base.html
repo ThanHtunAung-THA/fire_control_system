@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Fire Control System{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'fire_control/images/main_logo1.png' %}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -30,15 +31,22 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'fire_control:fire_alerts' %}">Fire Alerts</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'fire_control:device_status' %}">Device Status</a>
-                        </li>
+                        {% if user.is_admin or user.is_fire_team %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'fire_control:device_status' %}">Device Status</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'fire_control:team_status' %}">Team Status</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'fire_control:chat' %}">Chat</a>
                         </li>
+                        {% if user.is_admin or user.is_fire_team %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'fire_control:emergency_contact' %}">Emergency Contact</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav">

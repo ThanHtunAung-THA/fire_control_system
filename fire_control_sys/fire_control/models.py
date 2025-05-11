@@ -67,13 +67,27 @@ class TeamMember(models.Model):
         ('off_duty', 'Off Duty'),
     ]
     
+    ROLE_CHOICES = [
+        ('firefighter', 'Firefighter'),
+        ('firewatch', 'FireWatch'),
+        ('team_leader', 'Team Leader'),
+        ('equipment_manager', 'Equipment Manager'),
+        ('safety_officer', 'Safety Officer'),
+        ('paramedic', 'Paramedic'),
+        ('driver', 'Driver'),
+    ]
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, blank=True, null=True)
+    contact_number = models.CharField(max_length=20, blank=True, null=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='available')
     equipment = models.TextField(blank=True)
     last_location_update = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f"{self.user.username} - {self.status}"
+        return f"{self.name or self.user.username} - {self.role or 'No Role'}"
 
 class ChatMessage(models.Model):
     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)

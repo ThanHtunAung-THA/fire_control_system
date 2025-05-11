@@ -8,6 +8,23 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_active', 'is_admin', 'is_fire_team')
     search_fields = ('username', 'email')
     ordering = ('username',)
+    
+    # Add custom fields to the fieldsets
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
+        ('Roles', {'fields': ('is_admin', 'is_fire_team', 'location', 'status')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
+    
+    # Add custom fields to the add_fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'is_admin', 'is_fire_team', 'location', 'status'),
+        }),
+    )
 
 @admin.register(FireAlert)
 class FireAlertAdmin(admin.ModelAdmin):

@@ -1,0 +1,78 @@
+{% extends "fire_control/base.html" %}
+{% load static %}
+
+{% block title %}{{ alert.title }} - Fire Control System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card mb-4">
+                <div class="card-header {% if alert.status == 'active' %}bg-danger text-white{% elif alert.status == 'resolved' %}bg-success text-white{% else %}bg-warning{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">{{ alert.title }}</h3>
+                        <span class="badge {% if alert.status == 'active' %}bg-danger{% elif alert.status == 'resolved' %}bg-success{% else %}bg-warning{% endif %}">
+                            {{ alert.status|title }}
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong><i class="fa-solid fa-location-dot me-2"></i>Location:</strong> {{ alert.location }}</p>
+                            <p><strong><i class="fa-solid fa-clock me-2"></i>Reported:</strong> {{ alert.timestamp|date:"F j, Y, g:i a" }}</p>
+                            {% if alert.created_by %}
+                            <p><strong><i class="fa-solid fa-user me-2"></i>Reported by:</strong> {{ alert.created_by.username }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if alert.severity %}
+                            <p><strong><i class="fa-solid fa-triangle-exclamation me-2"></i>Severity:</strong> {{ alert.severity }}</p>
+                            {% endif %}
+                            {% if alert.priority %}
+                            <p><strong><i class="fa-solid fa-flag me-2"></i>Priority:</strong> {{ alert.priority }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="fa-solid fa-circle-info me-2"></i>Description</h5>
+                        <p>{{ alert.description }}</p>
+                    </div>
+                    
+                    {% if alert.notes %}
+                    <div class="mb-4">
+                        <h5><i class="fa-solid fa-note-sticky me-2"></i>Additional Notes</h5>
+                        <p>{{ alert.notes }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if alert.actions_taken %}
+                    <div class="mb-4">
+                        <h5><i class="fa-solid fa-list-check me-2"></i>Actions Taken</h5>
+                        <p>{{ alert.actions_taken }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'fire_control:fire_alerts' %}" class="btn btn-outline-secondary">
+                            <i class="fa-solid fa-arrow-left me-2"></i>Back to Alerts
+                        </a>
+                        {% if user.is_admin or user.is_fire_team %}
+                        <div>
+                            <a href="#" class="btn btn-outline-primary me-2">
+                                <i class="fa-solid fa-pen-to-square me-2"></i>Edit Alert
+                            </a>
+                            <a href="#" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-trash me-2"></i>Delete Alert
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
