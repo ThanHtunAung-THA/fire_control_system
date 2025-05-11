@@ -10,10 +10,17 @@ urlpatterns = [
     # Dashboard URL
     path('', views.dashboard, name='dashboard'),
     
+    # User Profile URLs
+    path('profile/', views.user_profile, name='user_profile'),
+    path('settings/', views.settings, name='settings'),
+    
     # Fire Alert URLs
     path('alerts/', views.FireAlertListView.as_view(), name='fire_alerts'),
     path('alerts/create/', views.FireAlertCreateView.as_view(), name='fire_alert_create'),
     path('alerts/<int:pk>/', views.FireAlertDetailView.as_view(), name='fire_alert_detail'),
+    path('alerts/<int:pk>/edit/', views.FireAlertUpdateView.as_view(), name='fire_alert_edit'),
+    path('alerts/<int:pk>/delete/', views.FireAlertDeleteView.as_view(), name='fire_alert_delete'),
+    path('alerts/<int:pk>/delete-ajax/', views.delete_fire_alert, name='fire_alert_delete_ajax'),
     
     # Device Status URLs
     path('devices/', views.DeviceStatusListView.as_view(), name='device_status'),

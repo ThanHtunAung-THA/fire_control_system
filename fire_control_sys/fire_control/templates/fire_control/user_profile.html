@@ -1,0 +1,57 @@
+{% extends "fire_control/base.html" %}
+{% load static %}
+
+{% block title %}My Profile - Fire Control System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fa-solid fa-user me-2"></i>My Profile</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-center">
+                            <div class="avatar-placeholder mb-3">
+                                <i class="fa-solid fa-user-circle fa-6x text-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="mb-3">Personal Information</h5>
+                            <p><strong><i class="fa-solid fa-user me-2"></i>Username:</strong> {{ user.username }}</p>
+                            <p><strong><i class="fa-solid fa-envelope me-2"></i>Email:</strong> {{ user.email }}</p>
+                            <p><strong><i class="fa-solid fa-user-tag me-2"></i>Role:</strong> 
+                                {% if user.is_admin %}
+                                    Administrator
+                                {% elif user.is_fire_team %}
+                                    Fire Team Member
+                                {% else %}
+                                    User
+                                {% endif %}
+                            </p>
+                            <p><strong><i class="fa-solid fa-clock me-2"></i>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="mb-3">Account Status</h5>
+                            <p><strong><i class="fa-solid fa-circle me-2 {% if user.is_active %}text-success{% else %}text-danger{% endif %}"></i>Status:</strong> 
+                                {% if user.is_active %}Active{% else %}Inactive{% endif %}
+                            </p>
+                            <p><strong><i class="fa-solid fa-clock me-2"></i>Last Login:</strong> {{ user.last_login|date:"F j, Y, g:i a" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3">Permissions</h5>
+                            <p><strong><i class="fa-solid fa-shield me-2"></i>Admin Access:</strong> {% if user.is_admin %}Yes{% else %}No{% endif %}</p>
+                            <p><strong><i class="fa-solid fa-fire me-2"></i>Fire Team Access:</strong> {% if user.is_fire_team %}Yes{% else %}No{% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

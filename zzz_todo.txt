@@ -56,6 +56,5 @@ can communicate with the team member by using the chat function.
 
 
 TODO:
-current login acc is m2y2 (superuser created in cmd). I can't enter to Team Members. it shows 403 Forbidden.
-
-I want to 
+=== Creation alerts is in error. 
+=== Team member section to finish

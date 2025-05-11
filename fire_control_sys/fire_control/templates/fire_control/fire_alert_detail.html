@@ -8,10 +8,12 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card mb-4">
-                <div class="card-header {% if alert.status == 'active' %}bg-danger text-white{% elif alert.status == 'resolved' %}bg-success text-white{% else %}bg-warning{% endif %}">
+                <div
+                    class="card-header {% if alert.status == 'active' %}bg-danger text-white{% elif alert.status == 'resolved' %}bg-success text-white{% else %}bg-warning{% endif %}">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="mb-0">{{ alert.title }}</h3>
-                        <span class="badge {% if alert.status == 'active' %}bg-danger{% elif alert.status == 'resolved' %}bg-success{% else %}bg-warning{% endif %}">
+                        <span
+                            class="badge {% if alert.status == 'active' %}bg-danger{% elif alert.status == 'resolved' %}bg-success{% else %}bg-warning{% endif %}">
                             {{ alert.status|title }}
                         </span>
                     </div>
@@ -34,19 +36,19 @@
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="mb-4">
                         <h5><i class="fa-solid fa-circle-info me-2"></i>Description</h5>
                         <p>{{ alert.description }}</p>
                     </div>
-                    
+
                     {% if alert.notes %}
                     <div class="mb-4">
                         <h5><i class="fa-solid fa-note-sticky me-2"></i>Additional Notes</h5>
                         <p>{{ alert.notes }}</p>
                     </div>
                     {% endif %}
-                    
+
                     {% if alert.actions_taken %}
                     <div class="mb-4">
                         <h5><i class="fa-solid fa-list-check me-2"></i>Actions Taken</h5>
@@ -61,12 +63,13 @@
                         </a>
                         {% if user.is_admin or user.is_fire_team %}
                         <div>
-                            <a href="#" class="btn btn-outline-primary me-2">
+                            <a href="{% url 'fire_control:fire_alert_edit' alert.pk %}"
+                                class="btn btn-outline-primary me-2">
                                 <i class="fa-solid fa-pen-to-square me-2"></i>Edit Alert
                             </a>
-                            <a href="#" class="btn btn-outline-danger">
+                            <button type="button" class="btn btn-outline-danger" onclick="confirmDelete()">
                                 <i class="fa-solid fa-trash me-2"></i>Delete Alert
-                            </a>
+                            </button>
                         </div>
                         {% endif %}
                     </div>
@@ -75,4 +78,58 @@
         </div>
     </div>
 </div>
-{% endblock %} 
+
+{% block extra_js %}
+<script>
+    function confirmDelete() {
+        showConfirmDialog(
+            'Delete Alert',
+            'Are you sure you want to delete the alert "{{ alert.title }}"?',
+            'Yes, delete it',
+            function () {
+                // Get CSRF token from cookie
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                const csrftoken = getCookie('csrftoken');
+
+                // Send AJAX request
+                fetch("{% url 'fire_control:fire_alert_delete_ajax' alert.pk %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccessMessage('Success!', data.message);
+                        // Redirect to alerts list after a short delay
+                        setTimeout(() => {
+                            window.location.href = "{% url 'fire_control:fire_alerts' %}";
+                        }, 1500);
+                    } else {
+                        showErrorMessage('Error!', data.error || 'Failed to delete alert');
+                    }
+                })
+                .catch(error => {
+                    showErrorMessage('Error!', 'An error occurred while deleting the alert');
+                });
+            }
+        );
+    }
+</script>
+{% endblock %}
+{% endblock %}

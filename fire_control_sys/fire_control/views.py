@@ -57,9 +57,37 @@ class FireAlertCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.is_admin or self.request.user.is_fire_team
 
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
 class FireAlertDetailView(LoginRequiredMixin, DetailView):
     model = FireAlert
     template_name = 'fire_control/fire_alert_detail.html'
+    context_object_name = 'alert'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        alert = self.get_object()
+        context['alert'] = alert
+        return context
+
+class FireAlertUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = FireAlert
+    form_class = FireAlertForm
+    template_name = 'fire_control/fire_alert_form.html'
+    success_url = reverse_lazy('fire_control:fire_alerts')
+
+    def test_func(self):
+        return self.request.user.is_admin or self.request.user.is_fire_team
+
+class FireAlertDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = FireAlert
+    template_name = 'fire_control/fire_alert_confirm_delete.html'
+    success_url = reverse_lazy('fire_control:fire_alerts')
+
+    def test_func(self):
+        return self.request.user.is_admin or self.request.user.is_fire_team
 
 # Device Control Views
 class DeviceStatusListView(LoginRequiredMixin, ListView):
@@ -166,4 +194,28 @@ def emergency_contact(request):
         form = EmergencyContactForm()
     
     return render(request, 'fire_control/emergency_contact.html', {'form': form})
+
+@login_required
+def delete_fire_alert(request, pk):
+    if not (request.user.is_admin or request.user.is_fire_team):
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    if request.method == 'POST':
+        alert = get_object_or_404(FireAlert, pk=pk)
+        alert_title = alert.title
+        alert.delete()
+        return JsonResponse({
+            'success': True,
+            'message': f'Alert "{alert_title}" has been deleted successfully.'
+        })
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@login_required
+def user_profile(request):
+    return render(request, 'fire_control/user_profile.html')
+
+@login_required
+def settings(request):
+    return render(request, 'fire_control/settings.html')
 

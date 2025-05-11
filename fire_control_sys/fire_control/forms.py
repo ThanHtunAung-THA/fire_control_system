@@ -18,12 +18,14 @@ class UserRegistrationForm(UserCreationForm):
 class FireAlertForm(forms.ModelForm):
     class Meta:
         model = FireAlert
-        fields = ('title', 'description', 'location', 'status')
+        fields = ('title', 'description', 'location', 'status', 'severity', 'notes')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
+            'severity': forms.Select(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
 class DeviceControlForm(forms.ModelForm):

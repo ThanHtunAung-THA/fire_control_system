@@ -19,11 +19,20 @@ class FireAlert(models.Model):
         ('false_alarm', 'False Alarm'),
     ]
     
+    SEVERITY_CHOICES = [
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
+        ('critical', 'Critical'),
+    ]
+    
     title = models.CharField(max_length=200)
     description = models.TextField()
     location = models.CharField(max_length=200)
     timestamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='active')
+    severity = models.CharField(max_length=50, choices=SEVERITY_CHOICES, default='medium')
+    notes = models.TextField(blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):

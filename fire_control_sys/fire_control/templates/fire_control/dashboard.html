@@ -67,10 +67,12 @@
                                 <td>{{ alert.timestamp }}</td>
                                 <td>{{ alert.location }}</td>
                                 <td>
-                                    <span class="badge bg-{{ alert.status_color }}">{{ alert.status }}</span>
+                                    <span class="badge {% if alert.status == 'active' %}bg-danger{% elif alert.status == 'resolved' %}bg-success{% else %}bg-warning{% endif %}">{{ alert.status|title }}</span>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-outline-danger">View Details</a>
+                                    <a href="{% url 'fire_control:fire_alert_detail' alert.pk %}" class="btn btn-sm btn-outline-danger">
+                                        <i class="fa-solid fa-eye me-1"></i>View Details
+                                    </a>
                                 </td>
                             </tr>
                             {% empty %}
