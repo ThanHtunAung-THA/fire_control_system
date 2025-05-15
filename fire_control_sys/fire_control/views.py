@@ -213,7 +213,8 @@ def delete_fire_alert(request, pk):
 
 @login_required
 def user_profile(request):
-    return render(request, 'fire_control/user_profile.html')
+    member = TeamMember.objects.filter(user=request.user).first()
+    return render(request, 'fire_control/user_profile.html', {'member': member})
 
 @login_required
 def settings(request):

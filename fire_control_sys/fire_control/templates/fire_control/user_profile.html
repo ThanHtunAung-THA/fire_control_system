@@ -4,49 +4,129 @@
 {% block title %}My Profile - Fire Control System{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="fa-solid fa-user me-2"></i>My Profile</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-4 text-center">
-                            <div class="avatar-placeholder mb-3">
-                                <i class="fa-solid fa-user-circle fa-6x text-secondary"></i>
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-gradient-primary text-white py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-container me-4">
+                            <div class="avatar-placeholder rounded-circle bg-white p-3 shadow-sm">
+                                <i class="fa-solid fa-user-circle fa-4x text-primary"></i>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <h5 class="mb-3">Personal Information</h5>
-                            <p><strong><i class="fa-solid fa-user me-2"></i>Username:</strong> {{ user.username }}</p>
-                            <p><strong><i class="fa-solid fa-envelope me-2"></i>Email:</strong> {{ user.email }}</p>
-                            <p><strong><i class="fa-solid fa-user-tag me-2"></i>Role:</strong> 
+                        <div>
+                            <h4 class="mb-1">{{ user.username }}</h4>
+                            <p class="mb-0 text-white-50">
                                 {% if user.is_admin %}
-                                    Administrator
+                                    <i class="fa-solid fa-shield me-2"></i>Administrator
                                 {% elif user.is_fire_team %}
-                                    Fire Team Member
+                                    <i class="fa-solid fa-fire me-2"></i>Fire Team Member
                                 {% else %}
-                                    User
+                                    <i class="fa-solid fa-user me-2"></i>User
                                 {% endif %}
                             </p>
-                            <p><strong><i class="fa-solid fa-clock me-2"></i>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
                         </div>
                     </div>
-                    
-                    <div class="row">
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <!-- Personal Information -->
                         <div class="col-md-6">
-                            <h5 class="mb-3">Account Status</h5>
-                            <p><strong><i class="fa-solid fa-circle me-2 {% if user.is_active %}text-success{% else %}text-danger{% endif %}"></i>Status:</strong> 
-                                {% if user.is_active %}Active{% else %}Inactive{% endif %}
-                            </p>
-                            <p><strong><i class="fa-solid fa-clock me-2"></i>Last Login:</strong> {{ user.last_login|date:"F j, Y, g:i a" }}</p>
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0"><i class="fa-solid fa-user me-2 text-primary"></i>Personal Information</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fa-solid fa-envelope text-primary me-3 fa-lg"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Email Address</small>
+                                            <span class="fw-bold">{{ user.email }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fa-solid fa-calendar text-primary me-3 fa-lg"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Member Since</small>
+                                            <span class="fw-bold">{{ user.date_joined|date:"F j, Y" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-user-tag text-primary me-3 fa-lg"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Member Role</small>
+                                            <span class="fw-bold">
+                                                {% if member.role %}
+                                                    {{ member.role }}
+                                                {% else %}
+                                                    Not Assigned
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Account Status -->
                         <div class="col-md-6">
-                            <h5 class="mb-3">Permissions</h5>
-                            <p><strong><i class="fa-solid fa-shield me-2"></i>Admin Access:</strong> {% if user.is_admin %}Yes{% else %}No{% endif %}</p>
-                            <p><strong><i class="fa-solid fa-fire me-2"></i>Fire Team Access:</strong> {% if user.is_fire_team %}Yes{% else %}No{% endif %}</p>
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0"><i class="fa-solid fa-chart-line me-2 text-primary"></i>Account Status</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="status-indicator me-3 {% if user.is_active %}bg-success{% else %}bg-danger{% endif %}"></div>
+                                        <div>
+                                            <small class="text-muted d-block">Account Status</small>
+                                            <span class="fw-bold">{% if user.is_active %}Active{% else %}Inactive{% endif %}</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-clock text-primary me-3 fa-lg"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Last Login</small>
+                                            <span class="fw-bold">{{ user.last_login|date:"F j, Y, g:i a" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Permissions -->
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0"><i class="fa-solid fa-shield-alt me-2 text-primary"></i>Access Permissions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="permission-card p-3 rounded {% if user.is_admin %}bg-success bg-opacity-10{% else %}bg-light{% endif %}">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fa-solid fa-shield me-3 fa-lg {% if user.is_admin %}text-success{% else %}text-muted{% endif %}"></i>
+                                                    <div>
+                                                        <h6 class="mb-1">Administrator Access</h6>
+                                                        <p class="mb-0 text-muted">{% if user.is_admin %}Full system access{% else %}Limited access{% endif %}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="permission-card p-3 rounded {% if user.is_fire_team %}bg-success bg-opacity-10{% else %}bg-light{% endif %}">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fa-solid fa-fire me-3 fa-lg {% if user.is_fire_team %}text-success{% else %}text-muted{% endif %}"></i>
+                                                    <div>
+                                                        <h6 class="mb-1">Fire Team Access</h6>
+                                                        <p class="mb-0 text-muted">{% if user.is_fire_team %}Fire team operations access{% else %}No fire team access{% endif %}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,4 +134,33 @@
         </div>
     </div>
 </div>
+
+<style>
+    .status-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    
+    .avatar-container {
+        transition: transform 0.3s ease;
+    }
+    
+    .avatar-container:hover {
+        transform: scale(1.05);
+    }
+    
+    .permission-card {
+        transition: all 0.3s ease;
+    }
+    
+    .permission-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+    }
+</style>
 {% endblock %} 
